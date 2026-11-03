@@ -39,6 +39,7 @@
       border: 1px solid var(--border); border-radius: 17px;
       box-shadow: 0 12px 30px rgba(0,0,0,.14);
     }
+    .rule > div:last-child { min-width: 0; }
     .number {
       display: grid; place-items: center; width: 42px; height: 42px;
       border-radius: 12px; color: white; background: rgba(113,130,255,.18);
@@ -50,6 +51,52 @@
     ul { margin: 0; padding-left: 19px; }
     li + li { margin-top: 5px; }
     strong { color: var(--text); }
+
+    .example {
+      margin: 12px 0 10px; padding: 14px 16px; border-radius: 12px;
+      background: #0d111b; border: 1px solid rgba(113,130,255,.3);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 15px; line-height: 1.7; color: #dfe4ff; white-space: pre-wrap;
+      overflow-x: auto;
+    }
+    .example-label {
+      font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+      color: #c6cdff;
+    }
+
+    /* INFORMATION UTILE */
+    .info {
+      margin-top: 18px; border-radius: 17px; overflow: hidden;
+      border: 1px solid rgba(113,130,255,.35);
+      background: linear-gradient(145deg, rgba(113,130,255,.12), var(--panel));
+    }
+    .info summary {
+      cursor: pointer; list-style: none; padding: 20px 22px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      font-weight: 800; font-size: 17px; letter-spacing: .02em;
+    }
+    .info summary::-webkit-details-marker { display: none; }
+    .info summary .chev {
+      flex: none; width: 30px; height: 30px; border-radius: 9px;
+      display: grid; place-items: center; background: rgba(113,130,255,.2);
+      transition: transform .2s ease;
+    }
+    .info[open] summary .chev { transform: rotate(180deg); }
+    .info summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+    .info-body { padding: 0 22px 22px; }
+    .info-body .sub { margin-bottom: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 11px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    th {
+      color: #c6cdff; font-size: 12px; text-transform: uppercase; letter-spacing: .08em;
+      background: rgba(0,0,0,.18);
+    }
+    td { color: var(--text); font-variant-numeric: tabular-nums; }
+    td.lvl { color: var(--muted); font-weight: 700; }
+    tr:last-child td { border-bottom: 0; }
+    tr.zero td { color: #7f899e; }
+    .table-wrap { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+
     .notice {
       margin-top: 18px; padding: 20px 22px; border-radius: 16px;
       border: 1px solid rgba(255,190,92,.28); background: rgba(255,190,92,.08);
@@ -61,6 +108,9 @@
       body { padding: 32px 14px; }
       .rule { padding: 17px; grid-template-columns: 40px 1fr; gap: 12px; }
       .number { width: 38px; height: 38px; }
+      th, td { padding: 9px 8px; font-size: 13px; }
+      .info summary { padding: 17px; }
+      .info-body { padding: 0 17px 17px; }
     }
   </style>
 </head>
@@ -128,7 +178,47 @@
           </ul>
         </div>
       </article>
+
+      <article class="rule">
+        <div class="number">06</div>
+        <div>
+          <h2>FORMAT DE LA DESCRIPTION</h2>
+          <p>La description envoyée après le fichier JSON doit obligatoirement respecter ce format :</p>
+          <div class="example"><span class="example-label">Exemple</span>
+1500 SAC(LEVEL 15-19)
+15,00x6,12 =91,8</div>
+          <ul>
+            <li><strong>Ligne 1 :</strong> le nombre de comptes, suivi de <strong>SAC</strong> et de la tranche de niveau entre parenthèses.</li>
+            <li><strong>Ligne 2 :</strong> le nombre de comptes divisé par 100, multiplié par le tarif de la tranche, puis le total en dollars.</li>
+            <li>Toute description qui ne respecte pas ce format pourra être refusée.</li>
+          </ul>
+        </div>
+      </article>
     </section>
+
+    <details class="info">
+      <summary>
+        <span>ℹ️ INFORMATION UTILE</span>
+        <span class="chev" aria-hidden="true">▾</span>
+      </summary>
+      <div class="info-body">
+        <p class="sub">Tarifs <strong>pour 100 comptes</strong>, selon le niveau :</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Niveau</th><th>Dollar</th><th>Ariary</th></tr>
+            </thead>
+            <tbody>
+              <tr class="zero"><td class="lvl">0 – 14</td><td>0,00 $</td><td>00 000 Ar</td></tr>
+              <tr><td class="lvl">15 – 19</td><td>6,12 $</td><td>26 316 Ar</td></tr>
+              <tr><td class="lvl">20 – 24</td><td>11,22 $</td><td>48 246 Ar</td></tr>
+              <tr><td class="lvl">25 – 29</td><td>12,24 $</td><td>52 632 Ar</td></tr>
+              <tr><td class="lvl">30 – 31</td><td>16,32 $</td><td>70 176 Ar</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </details>
 
     <aside class="notice">
       <h2>IMPORTANT</h2>
